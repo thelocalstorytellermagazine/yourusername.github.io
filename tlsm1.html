@@ -1,0 +1,2874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Local Storyteller Magazine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #555;
+            --accent-color: #8B4513;
+            --burnt-orange: #CC5500;
+            --light-bg: #e6f2ff;
+            --white: #fff;
+            --gray: #ddd;
+            --dark-gray: #777;
+            --sky-blue: #a8d0f0;
+            --pale-blue: #f0f8ff;
+            --medium-blue: #4a6fa5;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: var(--pale-blue);
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 150px;
+            width: auto;
+            margin-right: 15px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-style: italic;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80") center/cover no-repeat;
+            height: 30vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        
+        .subscription-info {
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #6d370f;
+            transform: translateY(-3px);
+        }
+        
+        .btn:disabled {
+            background-color: var(--dark-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* User Status Badge */
+        .user-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-status.show {
+            display: flex;
+        }
+        
+        .user-status i {
+            font-size: 1rem;
+        }
+        
+        /* Sign In Modal */
+        .signin-modal {
+            display: flex;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .signin-modal.hidden {
+            display: none;
+        }
+        
+        .signin-content {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .signin-logo {
+            margin-bottom: 20px;
+        }
+        
+        .signin-logo img {
+            height: 80px;
+            width: auto;
+        }
+        
+        .signin-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .signin-subtitle {
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+        
+        .signin-form {
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
+        }
+        
+        .form-group input.error {
+            border-color: var(--error-color);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .signin-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .signin-buttons .btn {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .btn-secondary {
+            background-color: var(--dark-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+        
+        .signin-note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        /* E-Book Modal */
+        .ebook-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .ebook-modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ebook-viewer-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: var(--dark-gray);
+        }
+        
+        .ebook-viewer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .ebook-iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+        
+        .close-ebook {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .close-ebook:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        /* E-Book Loading Indicator */
+        .ebook-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--white);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .ebook-loading .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-left-color: var(--white);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ebook-loading p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        /* E-Book Notification */
+        .ebook-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 320px;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1500;
+        }
+        
+        .ebook-notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        .notification-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .notification-message {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .notification-btn {
+            flex: 1;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .notification-btn.primary {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+        
+        .notification-btn.primary:hover {
+            background-color: #6d370f;
+        }
+        
+        .notification-btn.secondary {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
+        
+        .notification-btn.secondary:hover {
+            background-color: #ccc;
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        /* E-Book Section */
+        .ebook-section {
+            padding: 60px 0;
+            background-color: var(--pale-blue);
+            display: none;
+        }
+        
+        .ebook-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .ebook-container h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .ebook-content {
+            text-align: left;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--pale-blue);
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .ebook-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .ebook-download {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .read-online-btn {
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .read-online-btn:hover {
+            background-color: #6d370f;
+        }
+        
+        /* Magazine Preview Section */
+        .magazine-preview {
+            padding: 60px 0;
+            background-color: var(--pale-blue);
+        }
+        
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .preview-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .preview-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .preview-image {
+            height: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .preview-item:hover .preview-image img {
+            transform: scale(1.05);
+        }
+        
+        .preview-content {
+            padding: 25px;
+        }
+        
+        .preview-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .preview-content p {
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .preview-cta {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .preview-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .preview-image {
+                height: 350px;
+            }
+        }
+        
+        .locked-section {
+            padding: 60px 0;
+            background-color: var(--pale-blue);
+        }
+        
+        .locked-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .locked-container h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .locked-container p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+        
+        .unlock-input {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .unlock-input input {
+            padding: 12px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+            width: 250px;
+        }
+        
+        /* Where to Buy Section */
+        .where-to-buy {
+            padding: 60px 0;
+            background-color: var(--pale-blue);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .retailers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .retailer-card {
+            background-color: var(--white);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .retailer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .retailer-img {
+            height: 400px;
+            width: 100%;
+            object-fit: contain;
+            padding: 20px;
+            background-color: var(--white);
+        }
+        
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            height: 400px;
+            background-color: var(--white);
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            height: 100%;
+            width: 100%;
+            object-fit:cover;
+            padding: 20px;
+            position:relative;
+            top: 0;
+            left: 0;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        .retailer-content {
+            padding: 20px;
+        }
+        
+        .retailer-category {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .retailer-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .retailer-excerpt {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .retailer-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Contributors Section */
+        .contributors {
+            padding: 60px 0;
+            background-color: var(--sky-blue);
+        }
+        
+        .contributors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .contributor-card {
+            background-color: var(--white);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .contributor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contributor-img {
+            height: 350px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .contributor-content {
+            padding: 20px;
+        }
+        
+        .contributor-name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .contributor-role {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .contributor-bio {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        /* Editor's Statement Section */
+        .editor-statement {
+            padding: 60px 0;
+            background-color: var(--sky-blue);
+            position: relative;
+        }
+        
+        .editor-statement::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 6rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: serif;
+        }
+        
+        .editor-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 30px 20px;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .editor-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .editor-content p {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .editor-content .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin: 20px 0;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        
+        .editor-signature {
+            text-align: right;
+            margin-top: 25px;
+            font-style: italic;
+            color: var(--primary-color);
+        }
+        
+        .editor-signature .name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .editor-signature .title {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 60px 0;
+            background-color: var(--pale-blue);
+        }
+        
+        .about-content {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 1rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+        }
+        
+        /* Contact links styling */
+        .contact-link {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-link:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close {
+            color: var(--dark-gray);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+        
+        .close:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .modal-option {
+            background-color: var(--pale-blue);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .modal-option:hover {
+            background-color: var(--sky-blue);
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        
+        .modal-option h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .modal-option p {
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+        
+        /* Malaysian Payment Form Styles */
+        .payment-form {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .payment-method.active {
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .payment-content {
+            padding: 20px 0;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .payment-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .payment-buttons .btn {
+            flex: 1;
+            text-align: center;
+        }
+        
+        /* Malaysian Bank Options */
+        .bank-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .bank-option {
+            background-color: var(--white);
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bank-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bank-option.selected {
+            border-color: var(--accent-color);
+            background-color: var(--pale-blue);
+        }
+        
+        .bank-option i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .bank-option h4 {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .bank-option p {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+        
+        /* E-Wallet Options */
+        .ewallet-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ewallet-option {
+            background-color: var(--white);
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ewallet-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ewallet-option.selected {
+            border-color: var(--accent-color);
+            background-color: var(--pale-blue);
+        }
+        
+        .ewallet-option i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .ewallet-option.tng i { color: #00a651; }
+        .ewallet-option.grab i { color: #00b14f; }
+        .ewallet-option.boost i { color: #ff6200; }
+        .ewallet-option.shopee i { color: #ee4d2d; }
+        
+        .ewallet-option h4 {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .ewallet-option p {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Success Message Styles */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .success-message h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .success-message p {
+            margin-bottom: 10px;
+        }
+        
+        .unlock-code {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            background-color: var(--pale-blue);
+            padding: 10px;
+            border-radius: 4px;
+            margin: 15px 0;
+            letter-spacing: 2px;
+        }
+        
+        /* Warning Message */
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeeba;
+            display: none;
+        }
+        
+        .warning-message.show {
+            display: block;
+        }
+        
+        .warning-message i {
+            margin-right: 10px;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--accent-color);
+            animation: spin 1s ease infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Responsive */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            .hero {
+                height: 40vh;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .retailers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contributors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contributor-img {
+                height: 200px;
+            }
+            
+            .editor-statement::before {
+                font-size: 4rem;
+            }
+            
+            .editor-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .editor-content p {
+                font-size: 0.95rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .unlock-input {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .unlock-input input {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 15px;
+            }
+            
+            .bank-options, .ewallet-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .user-status {
+                top: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            
+            .signin-content {
+                padding: 30px 20px;
+            }
+            
+            .ebook-notification {
+                width: 280px;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sign In Modal -->
+    <div class="signin-modal" id="signinModal">
+        <div class="signin-content">
+            <div class="signin-logo">
+                <img src="f:\tlsmweb\tlsmlogo.jpg" alt="The Local Storyteller Magazine Logo">
+            </div>
+            <h2 class="signin-title">Welcome to The Local Storyteller</h2>
+            <p class="signin-subtitle">Sign in with your email to access our content</p>
+            
+            <form class="signin-form" id="signinForm">
+                <div class="form-group">
+                    <label for="signinEmail">Email Address</label>
+                    <input type="email" id="signinEmail" name="signinEmail" required>
+                    <div class="error-message" id="signinEmailError">Please enter a valid email address</div>
+                </div>
+                
+                <div class="signin-buttons">
+                    <button type="submit" class="btn" id="signinBtn">Sign In</button>
+                    <button type="button" class="btn btn-secondary" id="guestBtn">Continue as Guest</button>
+                </div>
+            </form>
+            
+            <p class="signin-note">If you've purchased our e-book before, signing in will restore your access.</p>
+        </div>
+    </div>
+
+    <!-- E-Book Modal -->
+    <div class="ebook-modal" id="ebookModal">
+        <div class="ebook-viewer-container">
+            <button class="close-ebook" id="closeEbook">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="ebook-viewer">
+                <div class="ebook-loading" id="ebookLoading">
+                    <div class="spinner"></div>
+                    <p>Loading e-book...</p>
+                </div>
+                <iframe id="ebookFrame" class="ebook-iframe" style="display: none;" src=""></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- E-Book Notification -->
+    <div class="ebook-notification" id="ebookNotification">
+        <button class="notification-close" id="notificationClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="notification-header">
+            <div class="notification-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="notification-title">E-Book Available</div>
+        </div>
+        <div class="notification-message">
+            You have access to "The Local Storyteller Magazine: Issue 1". Would you like to read it now?
+        </div>
+        <div class="notification-actions">
+            <button class="notification-btn primary" id="readEbookBtn">Read Now</button>
+            <button class="notification-btn secondary" id="continueBrowsingBtn">Continue</button>
+        </div>
+    </div>
+
+    <!-- User Status Badge -->
+    <div class="user-status" id="userStatus">
+        <i class="fas fa-check-circle"></i>
+        <span id="userStatusText">Signed In</span>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="f:\tlsmweb\tlsmlogo.jpg" alt="The Local Storyteller Magazine Logo">
+                <div>
+                    <div class="logo-text">The Local Storyteller</div>
+                    <div class="tagline">Stories that shape our community</div>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#where-to-buy">Where to Buy</a></li>
+                    <li><a href="#ebook" id="ebookNavLink">E-Book</a></li>
+                    <li><a href="#contributors">People</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#" id="signOutLink" style="display: none;">Sign Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Capturing Local Voices</h1>
+            <p>Every community has a story. We're here to tell yours.</p>
+            <button class="btn" id="buyNowBtn">Buy Now</button>
+        </div>
+    </section>
+
+    <!-- Locked E-Book Section -->
+    <section class="locked-section" id="lockedEbook">
+        <div class="container">
+            <div class="locked-container">
+                <h2><i class="fas fa-lock"></i> E-Book Access</h2>
+                <p>Purchase the E-Book to unlock exclusive content from The Local Storyteller Magazine.</p>
+                
+                <div class="warning-message" id="emailWarning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    This email has already been used to purchase the E-Book. Please use a different email or contact support if you need assistance.
+                </div>
+                
+                <div class="unlock-input">
+                    <input type="text" id="unlockCodeInput" placeholder="Enter your unlock code">
+                    <button class="btn" id="unlockBtn">Unlock</button>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--dark-gray);">
+                    Don't have an unlock code? <a href="#" id="buyNowLink" style="color: var(--accent-color);">Buy Now</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magazine Preview Section -->
+    <section class="magazine-preview" id="magazine-preview">
+        <div class="container">
+            <div class="section-title">
+                <h2>Magazine Preview</h2>
+            </div>
+            <div class="preview-container">
+                <div class="preview-item">
+                    <div class="preview-image">
+                        <img src="f:\tlsmweb\tlsmfront.jpeg" alt="The Local Storyteller Magazine Issue 1 Cover">
+                    </div>
+                    <div class="preview-content">
+                        <h3>Issue #1: "Fragments of the Truth"</h3>
+                        <p>The first issue of The Local Storyteller Magazine features a captivating cover with our theme "Fragments of the Truth". This edition showcases local voices and stories that explore the many facets of truth in our community.</p>
+                    </div>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-image">
+                        <img src="f:\tlsmweb\contentmag.jpg" alt="Table of Contents">
+                    </div>
+                    <div class="preview-content">
+                        <h3>Featured Stories</h3>
+                        <p>Browse through our curated collection of stories including "Epiphyte" by Jenny Hor, "Blue" by Aleya Amani, "Sawi and Kopitiam" by Melissa Leong, and more. Each story offers a unique perspective on truth in our local context.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-cta">
+                <p>Want to read the full magazine? Purchase your copy today!</p>
+                <button class="btn" id="buyNowBtn3">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- E-Book Section (Initially Hidden) -->
+    <section class="ebook-section" id="ebookSection">
+        <div class="container">
+            <div class="ebook-container">
+                <h2><i class="fas fa-book-open"></i> The Local Storyteller Magazine: Issue 1</h2>
+                <div class="ebook-content">
+                    <h3>TLSM PUBLICATION</h3>
+                    <p>Welcome to the first issue of The Local Storyteller Magazine. In this collection, we bring you stories that explore the many facets of truth - how it's perceived, how it's hidden, and how it ultimately shapes our lives.</p>
+                    
+                    <h4>Table of Contents</h4>
+                    <ol>
+                        <li><strong>Epiphyte</strong> by Jenny Hor.</li>
+                        <li><strong>Blue</strong> by Aleya Amani.</li>
+                        <li><strong>Sawi and Kopitiam</strong> by Melissa Leong.</li>
+                        <li><strong>The Third of September</strong> by Lee Tze Leong</li>
+                        <li><strong>Merdeka?</strong> by Veronica Elankovan</li>
+
+                        <h5><strong>More Contents in the Physical Copy & E-Book</strong></h5></h5>
+                    </ol>
+                    
+                    <h4>Editor's Note</h4>
+                    <p>As I mentioned in my statement, this magazine was born from a simple belief: every community has stories worth telling. In this first issue, we've selected stories that not only entertain but also challenge our perceptions of truth. Each author has brought their unique voice to explore the theme "Fragments of the Truth" in ways that surprised and delighted us.</p>
+                    
+                    <p>We hope these stories resonate with you as much as they did with us. Happy reading!</p>
+                    
+                    <p><em>- N. Kavineshwer, Editor-in-Chief</em></p>
+                </div>
+                
+                <div class="ebook-download">
+                    <button id="readOnlineBtn" class="read-online-btn">
+                        <i class="fas fa-book-reader"></i> Read Online
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Where to Buy Section -->
+    <section class="where-to-buy" id="where-to-buy">
+        <div class="container">
+            <div class="section-title">
+                <h2>Where to Buy</h2>
+            </div>
+            <div class="retailers-grid">
+                <div class="retailer-card">
+                    <div class="slideshow-container">
+                        <img src="f:\tlsmweb\moccc.jpeg" alt="MOC" class="slide active">
+                        <img src="f:\tlsmweb\Mocfront.jpeg" alt="MOC" class="slide">
+                    </div>
+                    <div class="retailer-content">
+                        <div class="retailer-category">Retailer</div>
+                        <h3 class="retailer-title">MOC (Ministry of Cakes)</h3>
+                        <p class="retailer-excerpt">Find our magazine at MOC while enjoying exquisite sweet treats.</p>
+                        <div class="retailer-meta">
+                            <span>10-1, Petaling Utama Avenue, Jalan PJS 1/50, 46150 Petaling Jaya.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="retailer-card">
+                    <img src="f:\tlsmweb\tgslogo.jpeg" alt="Gelato Spot SS15" class="retailer-img">
+                    <div class="retailer-content">
+                        <div class="retailer-category">Retailer</div>
+                        <h3 class="retailer-title">Gelato Spot SS15</h3>
+                        <p class="retailer-excerpt">Come by Gelato Spot SS15 to get your copy while enjoying their heavenly refreshing gelatos.</p>
+                        <div class="retailer-meta">
+                            <span>SS15, Subang Jaya</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contributors Section -->
+    <section class="contributors" id="contributors">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contributors & Owners</h2>
+            </div>
+            <div class="contributors-grid">
+                <div class="contributor-card">
+                    <img src="f:\tlsmweb\kavinfounder.jpg" alt="N. Kavineshwer" class="contributor-img">
+                    <div class="contributor-content">
+                        <h3 class="contributor-name">N. Kavineshwer</h3>
+                        <div class="contributor-role">Editor-in-Chief & Founder</div>
+                        <p class="contributor-bio">Former aspiring writer with a passion for giving local voices a platform to be heard.</p>
+                    </div>
+                </div>
+                <div class="contributor-card">
+                    <img src="f:\tlsmweb\cofoundertlsm.jpeg" alt="Contributor" class="contributor-img">
+                    <div class="contributor-content">
+                        <h3 class="contributor-name">Mithesh Kumar Muralidharan</h3>
+                        <div class="contributor-role">Co-Founder</div>
+                        <p class="contributor-bio">The Co-Founder of TLSM who made this possible.</p>
+                    </div>
+                </div>
+                <div class="contributor-card">
+                    <img src="f:\tlsmweb\designfella.jpeg" alt="Contributor" class="contributor-img">
+                    <div class="contributor-content">
+                        <h3 class="contributor-name">N. Praavin Shaoun</h3>
+                        <div class="contributor-role">Designer of TLSM website</div>
+                        <p class="contributor-bio">Creator and Editor of the TLSM webpage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editor's Statement Section -->
+    <section class="editor-statement" id="editor-statement">
+        <div class="container">
+            <div class="editor-content">
+                <h2>Editor's Statement</h2>
+                <div class="quote">I believe it was Gandhi who said: "Be the change you see in the world."</div>
+                <p>I was a former aspiring writer who had spent four years of his teenage years submitting short stories to international literary magazines, only to get rejected countless times. Always a rejection letter on how good the story was and yet fell short one way or the other.</p>
+                <p>There were no solid local literary magazines to turn to. In an attempt to evolve my craft by reading, I only found that books cost more than a movie ticket. After coming to terms with that hard truth, I kept my writing to myself and pursued other dreams.</p>
+                <p>Yet it somehow always bothered me. If I could be crushed so easily, how many others would fall the same? What hope was there for any of us? So came along, after a series of discussions and planning, The Local Storyteller Magazine (TLSM).</p>
+                <p>Everyone has at least one good story in them. In a form of an essay, poem or short story. We, The Local Storyteller Magazine Family, tend to bring a change. Shine a spotlight on undiscovered and discovered talents. Encourage more people to pick up a magazine and have a light read. Catch a story. Catch a relatable feeling.</p>
+                <p>So with this Issue 1: "Fragments of the Truth", we bring to you hand-picked stories that stood out to us and fit out theme the best. Congratulations to all our selected writers and those who submitted. There's always a next time. Thank you to our generous sponsors who believed in us and our cause. Finally, thanks to our TLSM team, for all the hardwork and support.</p>
+                <p>Wishing you a good read.</p>
+                <div class="editor-signature">
+                    <div class="name">N. Kavineshwer</div>
+                    <div class="title">Editor-in-Chief</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About The Local Storyteller</h2>
+                    <p>Founded in 2025, The Local Storyteller Magazine was born from a simple belief: every community has stories worth telling. We're dedicated to capturing the voices, experiences, and moments that define our local area.</p>
+                    <p>The Local Storyteller Magazine isn't just another publication, it's something new. It's a small spark trying to modernise the way people read and write in Malaysia. We're here to make storytelling feel alive again. Honest, local, and worth sitting down for.</p>
+                    <p>TLSM is built on the belief that words still matter and that good stories can move people, start conversations, and shift something in the air. We want to remind readers that reading doesn't have to feel heavy or distant. It can be as simple and comforting as a good cup of coffee.</p>
+                    <p>We're not here to compete with newspapers. We're here to replace them. One café table at a time. ☕.</p>
+                    <button class="btn" id="buyNowBtn2">Buy Now</button>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80" alt="Our Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" style="padding: 60px 0; background-color: var(--pale-blue);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+            </div>
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <p style="margin-bottom: 30px; font-size: 1.1rem;">Have questions or want to get in touch? Reach out to us using the information below.</p>
+                <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                    <a href="tel:+60128510364" class="contact-link" style="font-size: 1.1rem;">
+                        <i class="fas fa-phone"></i> +60128510364
+                    </a>
+                    <a href="tel:+60126171724" class="contact-link" style="font-size: 1.1rem;">
+                        <i class="fas fa-phone"></i> +60126171724
+                    </a>
+                    <a href="mailto:thelocalstorytellermagazine@gmail.com" class="contact-link" style="font-size: 1.1rem;">
+                        <i class="fas fa-envelope"></i> thelocalstorytellermagazine@gmail.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>The Local Storyteller</h3>
+                    <p>Dedicated to capturing the voices and stories that shape our community. Every person, every place, every story matters.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a> <p>: tlsm_my</p>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#where-to-buy">Where to Buy</a></li>
+                        <li><a href="#ebook">E-Book</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Where to Buy</h3>
+                    <ul>
+                        <li><a href="#where-to-buy">MOC(Ministry of Cakes)</a></li>
+                        <li><a href="#where-to-buy">Gelato Spot SS15</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li>
+                            <a href="tel:+60128510364" class="contact-link">
+                                <i class="fas fa-phone"></i> +60128510364
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+60126171724" class="contact-link">
+                                <i class="fas fa-phone"></i> +60126171724
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:thelocalstorytellermagazine@gmail.com" class="contact-link">
+                                <i class="fas fa-envelope"></i> thelocalstorytellermagazine@gmail.com
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 The Local Storyteller Magazine. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Buy Now Modal -->
+    <div id="buyNowModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title">Choose Your Format</h2>
+            
+            <div class="modal-options">
+                <div class="modal-option" id="ebookOption">
+                    <h3>E-Book Copy</h3>
+                    <p>Instant digital access to our magazine</p>
+                </div>
+                <div class="modal-option" id="physicalOption">
+                    <h3>Physical Copy</h3>
+                    <p>Get a printed copy delivered to you</p>
+                </div>
+            </div>
+            
+            <div class="payment-form" id="paymentForm">
+                <h3 style="margin-bottom: 20px; text-align: center;">Malaysian Payment Options</h3>
+                
+                <div class="payment-methods">
+                    <div class="payment-method active" id="fpxTab">FPX (Online Banking)</div>
+                    <div class="payment-method" id="ewalletTab">E-Wallet</div>
+                </div>
+                
+                <div class="payment-content">
+                    <div id="fpxForm">
+                        <form id="malaysianPaymentForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" name="fullName" required>
+                                <div class="error-message" id="fullNameError">Please enter your full name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error-message" id="emailError">Please enter a valid email address</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+60123456789" required>
+                                <div class="error-message" id="phoneError">Please enter your phone number</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Select Your Bank</label>
+                                <div class="bank-options">
+                                    <div class="bank-option" data-bank="maybank2u">
+                                        <i class="fas fa-university"></i>
+                                        <h4>Maybank2u</h4>
+                                        <p>Online Banking</p>
+                                    </div>
+                                    <div class="bank-option" data-bank="cimbclicks">
+                                        <i class="fas fa-university"></i>
+                                        <h4>CIMB Clicks</h4>
+                                        <p>Online Banking</p>
+                                    </div>
+                                    <div class="bank-option" data-bank="pbe">
+                                        <i class="fas fa-university"></i>
+                                        <h4>PBe</h4>
+                                        <p>Public Bank</p>
+                                    </div>
+                                    <div class="bank-option" data-bank="rhbnow">
+                                        <i class="fas fa-university"></i>
+                                        <h4>RHB Now</h4>
+                                        <p>Online Banking</p>
+                                    </div>
+                                    <div class="bank-option" data-bank="hongleong">
+                                        <i class="fas fa-university"></i>
+                                        <h4>Hong Leong</h4>
+                                        <p>Online Banking</p>
+                                    </div>
+                                    <div class="bank-option" data-bank="ambank">
+                                        <i class="fas fa-university"></i>
+                                        <h4>AmBank</h4>
+                                        <p>Online Banking</p>
+                                    </div>
+                                </div>
+                                <div class="error-message" id="bankError">Please select your bank</div>
+                            </div>
+                            
+                            <div class="payment-buttons">
+                                <button type="button" class="btn btn-secondary" id="backToOptions">Back</button>
+                                <button type="submit" class="btn" id="proceedToPayment">Proceed to Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="ewallet-payment" id="ewalletPayment" style="display: none;">
+                        <form id="ewalletPaymentForm">
+                            <div class="form-group">
+                                <label for="fullNameEW">Full Name</label>
+                                <input type="text" id="fullNameEW" name="fullNameEW" required>
+                                <div class="error-message" id="fullNameEWError">Please enter your full name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailEW">Email Address</label>
+                                <input type="email" id="emailEW" name="emailEW" required>
+                                <div class="error-message" id="emailEWError">Please enter a valid email address</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phoneEW">Phone Number</label>
+                                <input type="tel" id="phoneEW" name="phoneEW" placeholder="+60123456789" required>
+                                <div class="error-message" id="phoneEWError">Please enter your phone number</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Select Your E-Wallet</label>
+                                <div class="ewallet-options">
+                                    <div class="ewallet-option tng" data-ewallet="tng">
+                                        <i class="fas fa-wallet"></i>
+                                        <h4>Touch 'n Go</h4>
+                                        <p>eWallet</p>
+                                    </div>
+                                    <div class="ewallet-option grab" data-ewallet="grab">
+                                        <i class="fab fa-grab"></i>
+                                        <h4>GrabPay</h4>
+                                        <p>eWallet</p>
+                                    </div>
+                                    <div class="ewallet-option boost" data-ewallet="boost">
+                                        <i class="fas fa-bolt"></i>
+                                        <h4>Boost</h4>
+                                        <p>eWallet</p>
+                                    </div>
+                                    <div class="ewallet-option shopee" data-ewallet="shopee">
+                                        <i class="fab fa-shopify"></i>
+                                        <h4>ShopeePay</h4>
+                                        <p>eWallet</p>
+                                    </div>
+                                </div>
+                                <div class="error-message" id="ewalletError">Please select your e-wallet</div>
+                            </div>
+                            
+                            <div class="payment-buttons">
+                                <button type="button" class="btn btn-secondary" id="backToOptionsEW">Back</button>
+                                <button type="submit" class="btn" id="proceedToEWPayment">Proceed to Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // E-Book URL
+        const EBOOK_URL = 'https://heyzine.com/flip-book/b206e80e25.html';
+        
+        // Purchase Management System
+        class PurchaseManager {
+            constructor() {
+                this.purchases = this.getPurchases();
+                this.currentUser = this.getCurrentUser();
+            }
+            
+            getPurchases() {
+                const stored = localStorage.getItem('tlsmpurchases');
+                return stored ? JSON.parse(stored) : [];
+            }
+            
+            savePurchases() {
+                localStorage.setItem('tlsmpurchases', JSON.stringify(this.purchases));
+            }
+            
+            getCurrentUser() {
+                const stored = localStorage.getItem('tlsmpcurrentuser');
+                return stored ? JSON.parse(stored) : null;
+            }
+            
+            setCurrentUser(user) {
+                localStorage.setItem('tlsmpcurrentuser', JSON.stringify(user));
+                this.currentUser = user;
+            }
+            
+            hasPurchased(email) {
+                return this.purchases.some(p => p.email.toLowerCase() === email.toLowerCase());
+            }
+            
+            addPurchase(email, name, phone, paymentMethod) {
+                const purchase = {
+                    id: Date.now().toString(),
+                    email: email.toLowerCase(),
+                    name: name,
+                    phone: phone,
+                    paymentMethod: paymentMethod,
+                    purchaseDate: new Date().toISOString(),
+                    unlockCode: this.generateUnlockCode()
+                };
+                
+                this.purchases.push(purchase);
+                this.savePurchases();
+                return purchase;
+            }
+            
+            generateUnlockCode() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let code = '';
+                for (let i = 0; i < 8; i++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return code;
+            }
+            
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            signOut() {
+                localStorage.removeItem('tlsmpcurrentuser');
+                this.currentUser = null;
+            }
+        }
+        
+        const purchaseManager = new PurchaseManager();
+
+        // E-Book Viewer
+        class EBookViewer {
+            constructor() {
+                this.iframe = document.getElementById('ebookFrame');
+                this.loadingIndicator = document.getElementById('ebookLoading');
+                this.closeButton = document.getElementById('closeEbook');
+                
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                this.closeButton.addEventListener('click', () => this.closeEbook());
+                
+                document.addEventListener('keydown', (e) => {
+                    if (document.getElementById('ebookModal').classList.contains('show')) {
+                        if (e.key === 'Escape') this.closeEbook();
+                    }
+                });
+            }
+            
+            loadEbook() {
+                // Show loading indicator
+                this.loadingIndicator.style.display = 'block';
+                this.iframe.style.display = 'none';
+                
+                // Set iframe source
+                this.iframe.src = EBOOK_URL;
+                
+                // When iframe loads, hide loading indicator
+                this.iframe.onload = () => {
+                    this.loadingIndicator.style.display = 'none';
+                    this.iframe.style.display = 'block';
+                };
+                
+                // Handle iframe load error
+                this.iframe.onerror = () => {
+                    this.loadingIndicator.innerHTML = `
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff6b6b; margin-bottom: 20px;"></i>
+                        <p style="color: #ff6b6b;">Failed to load e-book</p>
+                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 10px;">Please check your internet connection and try again.</p>
+                        <button class="btn" style="margin-top: 15px;" onclick="window.open('${EBOOK_URL}', '_blank')">Open in New Tab</button>
+                    `;
+                };
+            }
+            
+            closeEbook() {
+                document.getElementById('ebookModal').classList.remove('show');
+            }
+        }
+        
+        const ebookViewer = new EBookViewer();
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+
+        // Auto-slideshow functionality
+        let slideIndex = 0;
+        const slides = document.getElementsByClassName("slide");
+        
+        function showSlides() {
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+            
+            // Increment slide index
+            slideIndex++;
+            
+            // Reset to first slide if we've reached end
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            
+            // Show the current slide
+            slides[slideIndex - 1].classList.add("active");
+            
+            // Change slide every 3 seconds
+            setTimeout(showSlides, 3000);
+        }
+        
+        // Start the slideshow
+        showSlides();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Adjust for sticky header
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const nav = document.getElementById('mainNav');
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // Check if user has already purchased
+        function checkPurchaseStatus() {
+            if (purchaseManager.currentUser) {
+                // User is logged in, show e-book
+                document.getElementById('lockedEbook').style.display = 'none';
+                document.getElementById('ebookSection').style.display = 'block';
+                document.getElementById('userStatus').classList.add('show');
+                document.getElementById('userStatusText').textContent = purchaseManager.currentUser.email;
+                document.getElementById('signOutLink').style.display = 'block';
+                
+                // If user has purchased, show notification instead of auto-opening
+                if (!purchaseManager.currentUser.isGuest) {
+                    setTimeout(() => {
+                        showEbookNotification();
+                    }, 2000); // Delay to let page load first
+                }
+            } else {
+                // User not logged in, show locked section
+                document.getElementById('lockedEbook').style.display = 'block';
+                document.getElementById('ebookSection').style.display = 'none';
+                document.getElementById('userStatus').classList.remove('show');
+                document.getElementById('signOutLink').style.display = 'none';
+            }
+        }
+
+        // Show E-Book notification
+        function showEbookNotification() {
+            const notification = document.getElementById('ebookNotification');
+            notification.classList.add('show');
+            
+            // Auto-hide after 10 seconds if user doesn't interact
+            setTimeout(() => {
+                if (notification.classList.contains('show')) {
+                    notification.classList.remove('show');
+                }
+            }, 10000);
+        }
+
+        // Open E-Book Modal
+        function openEbookModal() {
+            const modal = document.getElementById('ebookModal');
+            modal.classList.add('show');
+            
+            // Load E-Book
+            ebookViewer.loadEbook();
+        }
+
+        // Close E-Book Modal
+        document.getElementById('closeEbook').addEventListener('click', function() {
+            ebookViewer.closeEbook();
+        });
+
+        // E-Book notification event listeners
+        document.getElementById('notificationClose').addEventListener('click', function() {
+            document.getElementById('ebookNotification').classList.remove('show');
+        });
+
+        document.getElementById('readEbookBtn').addEventListener('click', function() {
+            document.getElementById('ebookNotification').classList.remove('show');
+            openEbookModal();
+        });
+
+        document.getElementById('continueBrowsingBtn').addEventListener('click', function() {
+            document.getElementById('ebookNotification').classList.remove('show');
+        });
+
+        // E-Book navigation link
+        document.getElementById('ebookNavLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // If user is not signed in, show sign-in modal first
+            if (!purchaseManager.currentUser) {
+                signinModal.classList.remove('hidden');
+                return;
+            }
+            
+            // If user has purchased, open e-book modal
+            if (purchaseManager.currentUser && !purchaseManager.currentUser.isGuest) {
+                openEbookModal();
+            } else {
+                // User is guest or hasn't purchased, show locked section
+                document.getElementById('lockedEbook').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Sign In Modal functionality
+        const signinModal = document.getElementById('signinModal');
+        const signinForm = document.getElementById('signinForm');
+        const signinEmail = document.getElementById('signinEmail');
+        const signinBtn = document.getElementById('signinBtn');
+        const guestBtn = document.getElementById('guestBtn');
+        const signOutLink = document.getElementById('signOutLink');
+
+        // Show sign-in modal on page load
+        window.addEventListener('load', function() {
+            // Only show sign-in modal if user is not already signed in
+            if (!purchaseManager.currentUser) {
+                signinModal.classList.remove('hidden');
+            }
+        });
+
+        // Handle sign-in form submission
+        signinForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = signinEmail.value.trim();
+            
+            // Validate email
+            if (!purchaseManager.validateEmail(email)) {
+                signinEmail.classList.add('error');
+                document.getElementById('signinEmailError').classList.add('show');
+                return;
+            }
+            
+            // Check if user has purchased
+            if (purchaseManager.hasPurchased(email)) {
+                // User has purchased, set as current user
+                const purchase = purchaseManager.purchases.find(p => p.email.toLowerCase() === email.toLowerCase());
+                purchaseManager.setCurrentUser(purchase);
+                
+                // Hide sign-in modal
+                signinModal.classList.add('hidden');
+                
+                // Update UI
+                checkPurchaseStatus();
+            } else {
+                // User hasn't purchased, create a guest user
+                const guestUser = {
+                    id: Date.now().toString(),
+                    email: email,
+                    name: 'Guest User',
+                    isGuest: true
+                };
+                
+                purchaseManager.setCurrentUser(guestUser);
+                
+                // Hide sign-in modal
+                signinModal.classList.add('hidden');
+                
+                // Update UI
+                document.getElementById('userStatus').classList.add('show');
+                document.getElementById('userStatusText').textContent = email;
+                document.getElementById('signOutLink').style.display = 'block';
+            }
+        });
+
+        // Handle guest button click
+        guestBtn.addEventListener('click', function() {
+            // Hide sign-in modal
+            signinModal.classList.add('hidden');
+            
+            // Don't set any user, just continue as guest
+        });
+
+        // Handle sign out
+        signOutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Sign out user
+            purchaseManager.signOut();
+            
+            // Update UI
+            checkPurchaseStatus();
+            
+            // Show sign-in modal
+            signinModal.classList.remove('hidden');
+        });
+
+        // Initialize purchase status
+        checkPurchaseStatus();
+
+        // Buy Now Modal functionality
+        const modal = document.getElementById('buyNowModal');
+        const buyNowBtns = document.querySelectorAll('#buyNowBtn, #buyNowBtn2, #buyNowLink');
+        const closeBtn = document.querySelector('.close');
+        const ebookOption = document.getElementById('ebookOption');
+        const physicalOption = document.getElementById('physicalOption');
+        const paymentForm = document.getElementById('paymentForm');
+        const backToOptionsBtn = document.getElementById('backToOptions');
+        const backToOptionsEWBtn = document.getElementById('backToOptionsEW');
+        const modalOptions = document.querySelector('.modal-options');
+        const malaysianPaymentForm = document.getElementById('malaysianPaymentForm');
+        const ewalletPaymentForm = document.getElementById('ewalletPaymentForm');
+        const fpxTab = document.getElementById('fpxTab');
+        const ewalletTab = document.getElementById('ewalletTab');
+        const fpxForm = document.getElementById('fpxForm');
+        const ewalletPayment = document.getElementById('ewalletPayment');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const unlockCodeInput = document.getElementById('unlockCodeInput');
+        const emailWarning = document.getElementById('emailWarning');
+        const readOnlineBtn = document.getElementById('readOnlineBtn');
+
+        // Bank and E-Wallet selection
+        let selectedBank = null;
+        let selectedEWallet = null;
+
+        // Open modal when any Buy Now button is clicked
+        buyNowBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // If user is not signed in, show sign-in modal first
+                if (!purchaseManager.currentUser) {
+                    signinModal.classList.remove('hidden');
+                    return;
+                }
+                
+                modal.style.display = 'block';
+                // Reset to options view
+                modalOptions.style.display = 'flex';
+                paymentForm.style.display = 'none';
+                // Hide warning message
+                emailWarning.classList.remove('show');
+            });
+        });
+
+        // Read Online button
+        readOnlineBtn.addEventListener('click', function() {
+            openEbookModal();
+        });
+
+        // Close modal when X is clicked
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // E-Book option clicked
+        ebookOption.addEventListener('click', function() {
+            modalOptions.style.display = 'none';
+            paymentForm.style.display = 'block';
+            // Reset to FPX tab
+            fpxTab.classList.add('active');
+            ewalletTab.classList.remove('active');
+            fpxForm.style.display = 'block';
+            ewalletPayment.style.display = 'none';
+            
+            // Pre-fill email if user is logged in
+            if (purchaseManager.currentUser && !purchaseManager.currentUser.isGuest) {
+                document.getElementById('email').value = purchaseManager.currentUser.email;
+                document.getElementById('emailEW').value = purchaseManager.currentUser.email;
+            }
+        });
+
+        // Physical Copy option clicked
+        physicalOption.addEventListener('click', function() {
+            window.open('https://my.shp.ee/qTqz63d', '_blank');
+            modal.style.display = 'none';
+        });
+
+        // Back to options button
+        backToOptionsBtn.addEventListener('click', function() {
+            paymentForm.style.display = 'none';
+            modalOptions.style.display = 'flex';
+        });
+
+        // Back to options button for E-Wallet
+        backToOptionsEWBtn.addEventListener('click', function() {
+            paymentForm.style.display = 'none';
+            modalOptions.style.display = 'flex';
+        });
+
+        // Payment method tabs
+        fpxTab.addEventListener('click', function() {
+            fpxTab.classList.add('active');
+            ewalletTab.classList.remove('active');
+            fpxForm.style.display = 'block';
+            ewalletPayment.style.display = 'none';
+        });
+
+        ewalletTab.addEventListener('click', function() {
+            ewalletTab.classList.add('active');
+            fpxTab.classList.remove('active');
+            fpxForm.style.display = 'none';
+            ewalletPayment.style.display = 'block';
+        });
+
+        // Bank selection
+        document.querySelectorAll('.bank-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove previous selection
+                document.querySelectorAll('.bank-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selection to clicked option
+                this.classList.add('selected');
+                selectedBank = this.dataset.bank;
+            });
+        });
+
+        // E-Wallet selection
+        document.querySelectorAll('.ewallet-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove previous selection
+                document.querySelectorAll('.ewallet-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selection to clicked option
+                this.classList.add('selected');
+                selectedEWallet = this.dataset.ewallet;
+            });
+        });
+
+        // Form validation
+        function validateForm(formType) {
+            let isValid = true;
+            
+            if (formType === 'fpx') {
+                const fullName = document.getElementById('fullName');
+                const email = document.getElementById('email');
+                const phone = document.getElementById('phone');
+                
+                // Reset errors
+                document.querySelectorAll('.error-message').forEach(msg => msg.classList.remove('show'));
+                document.querySelectorAll('input').forEach(input => input.classList.remove('error'));
+                
+                // Validate full name
+                if (!fullName.value.trim()) {
+                    fullName.classList.add('error');
+                    document.getElementById('fullNameError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate email
+                if (!purchaseManager.validateEmail(email.value)) {
+                    email.classList.add('error');
+                    document.getElementById('emailError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Check if email already purchased
+                if (purchaseManager.hasPurchased(email.value)) {
+                    email.classList.add('error');
+                    document.getElementById('emailError').textContent = 'This email has already been used to purchase the E-Book';
+                    document.getElementById('emailError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate phone
+                if (!phone.value.trim()) {
+                    phone.classList.add('error');
+                    document.getElementById('phoneError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate bank selection
+                if (!selectedBank) {
+                    document.getElementById('bankError').classList.add('show');
+                    isValid = false;
+                }
+                
+            } else if (formType === 'ewallet') {
+                const fullName = document.getElementById('fullNameEW');
+                const email = document.getElementById('emailEW');
+                const phone = document.getElementById('phoneEW');
+                
+                // Reset errors
+                document.querySelectorAll('.error-message').forEach(msg => msg.classList.remove('show'));
+                document.querySelectorAll('input').forEach(input => input.classList.remove('error'));
+                
+                // Validate full name
+                if (!fullName.value.trim()) {
+                    fullName.classList.add('error');
+                    document.getElementById('fullNameEWError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate email
+                if (!purchaseManager.validateEmail(email.value)) {
+                    email.classList.add('error');
+                    document.getElementById('emailEWError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Check if email already purchased
+                if (purchaseManager.hasPurchased(email.value)) {
+                    email.classList.add('error');
+                    document.getElementById('emailEWError').textContent = 'This email has already been used to purchase the E-Book';
+                    document.getElementById('emailEWError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate phone
+                if (!phone.value.trim()) {
+                    phone.classList.add('error');
+                    document.getElementById('phoneEWError').classList.add('show');
+                    isValid = false;
+                }
+                
+                // Validate e-wallet selection
+                if (!selectedEWallet) {
+                    document.getElementById('ewalletError').classList.add('show');
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+
+        // Handle Malaysian Bank Payment form submission
+        malaysianPaymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm('fpx')) {
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                bank: selectedBank,
+                amount: '15.00', // E-Book price
+                currency: 'MYR',
+                product: 'The Local Storyteller Magazine - E-Book'
+            };
+            
+            // Show loading
+            const proceedBtn = document.getElementById('proceedToPayment');
+            proceedBtn.disabled = true;
+            proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // Add purchase to system
+                const purchase = purchaseManager.addPurchase(
+                    formData.email,
+                    formData.fullName,
+                    formData.phone,
+                    `FPX - ${formData.bank}`
+                );
+                
+                // Set current user
+                purchaseManager.setCurrentUser(purchase);
+                
+                // Redirect to bank payment page in new tab
+                const bankUrls = {
+                    'maybank2u': 'https://www.maybank2u.com.my',
+                    'cimbclicks': 'https://www.cimbclicks.com.my',
+                    'pbe': 'https://www.pbebank.com',
+                    'rhbnow': 'https://www.rhbnow.com',
+                    'hongleong': 'https://www.hlb.com.my',
+                    'ambank': 'https://www.ambank.com.my'
+                };
+                
+                // Open bank website in new tab
+                window.open(bankUrls[formData.bank], '_blank');
+                
+                // Create success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.innerHTML = `
+                    <h3>Payment Initiated!</h3>
+                    <p>You have been redirected to ${formData.bank} to complete your payment.</p>
+                    <p>After successful payment, your unlock code is:</p>
+                    <div class="unlock-code">${purchase.unlockCode}</div>
+                    <p>Please save this code. You can use it to unlock the E-Book on our website.</p>
+                    <button id="unlockNowBtn" class="btn">Unlock E-Book Now</button>
+                `;
+                
+                // Clear form and show success message
+                paymentForm.style.display = 'none';
+                document.querySelector('.modal-content').appendChild(successMessage);
+                
+                // Handle unlock now button
+                document.getElementById('unlockNowBtn').addEventListener('click', function() {
+                    modal.style.display = 'none';
+                    unlockEbook();
+                });
+                
+                // Reset button
+                proceedBtn.disabled = false;
+                proceedBtn.innerHTML = 'Proceed to Payment';
+            }, 2000);
+        });
+
+        // Handle E-Wallet Payment form submission
+        ewalletPaymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm('ewallet')) {
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                fullName: document.getElementById('fullNameEW').value,
+                email: document.getElementById('emailEW').value,
+                phone: document.getElementById('phoneEW').value,
+                ewallet: selectedEWallet,
+                amount: '15.00', // E-Book price
+                currency: 'MYR',
+                product: 'The Local Storyteller Magazine - E-Book'
+            };
+            
+            // Show loading
+            const proceedBtn = document.getElementById('proceedToEWPayment');
+            proceedBtn.disabled = true;
+            proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // Add purchase to system
+                const purchase = purchaseManager.addPurchase(
+                    formData.email,
+                    formData.fullName,
+                    formData.phone,
+                    `E-Wallet - ${formData.ewallet}`
+                );
+                
+                // Set current user
+                purchaseManager.setCurrentUser(purchase);
+                
+                // Redirect to e-wallet app/page
+                const ewalletUrls = {
+                    'tng': 'https://www.tngdigital.com.my',
+                    'grab': 'https://www.grab.com/my/pay/',
+                    'boost': 'https://www.myboost.com.my',
+                    'shopee': 'https://shopee.com.my/'
+                };
+                
+                // Open e-wallet in new tab
+                window.open(ewalletUrls[formData.ewallet], '_blank');
+                
+                // Create success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'success-message';
+                successMessage.innerHTML = `
+                    <h3>Payment Initiated!</h3>
+                    <p>You have been redirected to ${formData.ewallet} to complete your payment.</p>
+                    <p>After successful payment, your unlock code is:</p>
+                    <div class="unlock-code">${purchase.unlockCode}</div>
+                    <p>Please save this code. You can use it to unlock the E-Book on our website.</p>
+                    <button id="unlockNowBtnEW" class="btn">Unlock E-Book Now</button>
+                `;
+                
+                // Clear form and show success message
+                paymentForm.style.display = 'none';
+                document.querySelector('.modal-content').appendChild(successMessage);
+                
+                // Handle unlock now button
+                document.getElementById('unlockNowBtnEW').addEventListener('click', function() {
+                    modal.style.display = 'none';
+                    unlockEbook();
+                });
+                
+                // Reset button
+                proceedBtn.disabled = false;
+                proceedBtn.innerHTML = 'Proceed to Payment';
+            }, 2000);
+        });
+
+        // Unlock E-Book function
+        function unlockEbook() {
+            const unlockCode = unlockCodeInput.value.trim();
+            
+            // Check if unlock code matches any purchase
+            const purchase = purchaseManager.purchases.find(p => p.unlockCode === unlockCode);
+            
+            if (purchase) {
+                // Set current user
+                purchaseManager.setCurrentUser(purchase);
+                
+                // Show e-book section and hide locked section
+                document.getElementById('lockedEbook').style.display = 'none';
+                document.getElementById('ebookSection').style.display = 'block';
+                
+                // Show user status
+                document.getElementById('userStatus').classList.add('show');
+                document.getElementById('userStatusText').textContent = purchase.email;
+                document.getElementById('signOutLink').style.display = 'block';
+                
+                // Show notification instead of auto-opening
+                showEbookNotification();
+                
+                // Scroll to e-book section
+                document.getElementById('ebookSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Show error message
+                unlockCodeInput.style.borderColor = 'red';
+                unlockCodeInput.setAttribute('placeholder', 'Invalid unlock code');
+                setTimeout(() => {
+                    unlockCodeInput.style.borderColor = '';
+                    unlockCodeInput.setAttribute('placeholder', 'Enter your unlock code');
+                }, 3000);
+            }
+        }
+
+        // Handle unlock button click
+        unlockBtn.addEventListener('click', unlockEbook);
+
+        // Handle unlock code input enter key
+        unlockCodeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                unlockEbook();
+            }
+        });
+
+        // Add event listener for the new Buy Now button
+        document.getElementById('buyNowBtn3').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // If user is not signed in, show sign-in modal first
+            if (!purchaseManager.currentUser) {
+                signinModal.classList.remove('hidden');
+                return;
+            }
+            
+            modal.style.display = 'block';
+            // Reset to options view
+            modalOptions.style.display = 'flex';
+            paymentForm.style.display = 'none';
+            // Hide warning message
+            emailWarning.classList.remove('show');
+        });
+    </script>
+</body>
+</html>
